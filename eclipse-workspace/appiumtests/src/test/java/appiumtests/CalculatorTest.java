@@ -1,8 +1,9 @@
 package appiumtests;
 import java.util.concurrent.TimeUnit;
+
 import  java.util.*;
 
-import io.appium.java_client.MultiTouchAction;
+//import io.appium.java_client.MultiTouchAction;
 import io.appium.java_client.TouchAction;
 
 import io.appium.java_client.android.AndroidDriver;
@@ -33,6 +34,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.touch.TouchActions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import au.com.bytecode.opencsv.CSVReader;
+import au.com.bytecode.opencsv.CSVWriter;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
@@ -105,7 +108,12 @@ public class CalculatorTest {
 		while (X<52) { 
 			String V = Integer.toString(Q);
 			String linkXpath = "/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.FrameLayout/android.widget.LinearLayout/androidx.viewpager.widget.ViewPager/android.widget.FrameLayout/android.view.ViewGroup/androidx.recyclerview.widget.RecyclerView/android.widget.RelativeLayout["+V+"]/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.TextView";
-			
+			try {
+				Thread.sleep(300);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			WebElement showMoreList = driver.findElement(By.xpath(linkXpath));
 			String ttUsername = showMoreList.getText();
 			System.out.println(ttUsername);
@@ -116,14 +124,14 @@ public class CalculatorTest {
 				
 				scrollDown();
 				try {
-					Thread.sleep(2000);
+					Thread.sleep(4000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				scrollDown();
 				try {
-					Thread.sleep(3000);
+					Thread.sleep(4000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -169,11 +177,24 @@ public class CalculatorTest {
 		
 		//while loop to go through each  person in the
 		//while (i<3) {
+		try {
+			Thread.sleep(4000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 			touchAction.tap(PointOption.point(337, 85)).perform();
+			
+			try {
+				Thread.sleep(4000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			WebElement searchName = driver.findElement(By.id("com.zhiliaoapp.musically:id/amb"));
 			searchName.sendKeys(ttHandle[i]);
 			try {
-				Thread.sleep(5000);
+				Thread.sleep(4000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -185,7 +206,7 @@ public class CalculatorTest {
 			//firstProfile1.click();
 			//tap.sendKeys(names[i]);
 			try {
-				Thread.sleep(6000);
+				Thread.sleep(4000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -196,7 +217,13 @@ public class CalculatorTest {
 			//WebElement searchClick = driver.findElement(By.id("com.zhiliaoapp.musically:id/dxv"));
 			//searchClick.click();
 			//touchAction.tap(PointOption.point(186, 155)).perform();
-			
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			/*
 			WebElement followers= driver.findElement(By.id("com.zhiliaoapp.musically:id/av7"));
 			String followerCheck = followers.getText();
 			boolean isFoundM= followerCheck.contains("M");
@@ -226,6 +253,41 @@ public class CalculatorTest {
 			//driver.navigate().back();
 			System.out.println(i);
 		//}
+			*/
+	}
+	public static void clearSearch() {
+		try {
+			Thread.sleep(4000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		WebElement search = driver.findElement(By.id("com.zhiliaoapp.musically:id/amb"));
+		search.click();
+		try {
+			Thread.sleep(4000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		WebElement clearSearch = driver.findElement(By.id("com.zhiliaoapp.musically:id/a1c"));
+		clearSearch.click();
+		try {
+			Thread.sleep(4000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		WebElement clearHistory = driver.findElement(By.id("com.zhiliaoapp.musically:id/co9"));
+		clearHistory.click();
+		try {
+			Thread.sleep(4000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		driver.navigate().back();
+		
 	}
 	public static void runTikTok() throws MalformedURLException 
 	{
@@ -326,6 +388,16 @@ public class CalculatorTest {
 			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 			
 			
+	}
+	public static void deleteFirstRow() throws IOException {
+		CSVReader reader2 = new CSVReader(new FileReader("/Users/gabe/Desktop/TTNames.csv"));
+		List<String[]> allElements = reader2.readAll();
+		allElements.remove(0);
+		FileWriter sw = new FileWriter("/Users/gabe/Desktop/TTNames.csv");
+		CSVWriter writer = new CSVWriter(sw);
+		writer.writeAll(allElements);
+		writer.close();
+		
 	}
 	public static String[] pullFromCSV(String filePath) {
 		//path for the csv file being read from
@@ -1277,16 +1349,46 @@ public static void InfluencerScraping() throws MalformedURLException {
 						Y += 100;
 						*/
 			}
-public static void InfluencerScrapingMethods() throws MalformedURLException {
+public static void InfluencerScrapingMethods() throws IOException {
+	long startTime = System.nanoTime();
 	runTikTok();
 	String[] ttHandle;
 	ttHandle = pullFromCSV("/Users/gabe/Desktop/TTNames.csv");
 	LinkedList<String> outputTTHandle;
-	
+	int start = 0;
 	for (String x: ttHandle) {
+		if (start%5== 0 && start != 0) {
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();}
+		}
+		if (start > 0) {
+			clearSearch();}
 	searchProfile(x);
-	outputTTHandle = gatherSuggested();
-	writeToCSV(outputTTHandle, "SuggestedList.csv");
+	try{
+		outputTTHandle = gatherSuggested();
+		writeToCSV(outputTTHandle, "TestSuggestedJustJamie2.csv");}
+	catch (Exception e) {
+	      System.out.println("This user is private");
+	      driver.navigate().back();
+	      driver.navigate().back();
+	      driver.navigate().back();}
+		
+	
+	
+	start++;
+	deleteFirstRow();
+	if (start == 9) {
+		break;
+		
+	}
+	
+}
+	long endTime   = System.nanoTime();
+	long totalTime = endTime - startTime;
+	System.out.println(totalTime);
 	}
 }
 				
@@ -1295,6 +1397,6 @@ public static void InfluencerScrapingMethods() throws MalformedURLException {
 			
 	 //com.zhiliaoapp.musically:id/e5r
    
-}
+
 
 
